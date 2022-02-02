@@ -1,14 +1,17 @@
 /*
-2.3. Krijoni klasën Limuzina që është një Automjet automatik që vozitet me 6 shpejtesi, pa tempomat,
-dhe ka atributin ngjyra dhe reprezentohet në String në formatin:
+2.3. Krijoni klasën Limuzina që është një Automjet  automatik që vozitet  me 6 shpejtesi,
+pa tempomat, dhe ka atributin ngjyra dhe  reprezentohet në String në formatin:
 Limuzina <nrShasise> : <prodhuesi> - <vitiProdhimit> : <ngjyra>
-
  */
 public class Limuzina extends Automjeti{
+
     private String ngjyra;
 
-    public Limuzina(int nrShasise, String prodhuesi, int vitiProdhimit, String ngjyra) {
+    public Limuzina(int nrShasise, String prodhuesi, int vitiProdhimit , String ngjyra) throws AutomjetiExecption {
         super(nrShasise, prodhuesi, vitiProdhimit);
+        if (ngjyra.equals("") || ngjyra.trim().isEmpty()){
+            throw new AutomjetiExecption("U Dedektua nje  gabim tek ngjyra");
+        }
         this.ngjyra = ngjyra;
     }
 
@@ -16,22 +19,20 @@ public class Limuzina extends Automjeti{
         return ngjyra;
     }
 
-    public void setNgjyra(String ngjyra) {
+    public void setNgjyra(String ngjyra) throws AutomjetiExecption{
+        if (ngjyra.equals("") || ngjyra.trim().isEmpty()){
+            throw new AutomjetiExecption("U Dedektua nje  gabim tek ngjyra");
+        }
         this.ngjyra = ngjyra;
     }
 
     @Override
-    public String toString() {
-        return "Limuzina " +super.toString()+" : " +ngjyra ;
-    }
-
-    @Override
     public boolean eshteAutomatik() {
-        return false;
+        return true;
     }
 
     @Override
-    public int numriShpejtsive() {
+    public int numriShpejtesive() {
         return 6;
     }
 
@@ -39,4 +40,10 @@ public class Limuzina extends Automjeti{
     public boolean kaTempomat() {
         return false;
     }
+
+    @Override
+    public String toString(){
+        return "Limuzina "+super.toString()+" : "+ngjyra;
+    }
+
 }

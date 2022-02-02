@@ -1,31 +1,40 @@
 /*
-2.5. Krijoni klasën Autosalloni që ka atributin emri , dhe përmban një varg ku do të ruhen si limuzina
+2.5. Krijoni klasën Autosalloni që ka atributin emri , dhe përmban një  varg ku do të ruhen si limuzina
 ashtu edhe SUV.
-a) Ofroni konstruktorin e kësaj klase, i cili pranon emrin si dhe numrin e automjeteve.
-b) Ofroni metodën shtoAutomjetin që e shton një automjet në varg nëse veq nuk ekziston dhe ka
-vend në varg.
-c) Metoda shtypNumriShpejtesive që shtyp automjetet me një numër te caktuar te shpejtësive,
-varësisht nga parametri i pranuar.
-d) Metoda ktheMeTempomat që kthen automjetet me/pa tempomat, varësisht nga parametri i
-pranuar.
-e) Ofroni metodën main dhe krijohet një instancë e klasës Autosalloni me emrin “Salloni ABC” që
-mund të ketë 50 automjete, dhe shtoni disa limuzina ashtu edhe SUV.
-f) Të testohen të gjitha metodat.
+
+a)     Ofroni konstruktorin e kësaj klase, i cili pranon emrin si dhe numrin e automjeteve.
+b)	Ofroni metodën shtoAutomjetin që e shton një automjet në varg nëse veq nuk ekziston dhe ka vend në varg.
+c)	Metoda  shtypShpejtesiaProdhuesi që shtyp automjetet me një numër të shpejtësive deh një prodhues të caktuar.
+d)     Metoda tempomatiMeIRi që kthen automjetin e fundit më të ri që ka tempomat.
+e)	Ofroni metodën main dhe krijohet një instancë e klasës Autosalloni me emrin “Salloni ABC” që mund të ketë 50 automjete,
+dhe shtoni disa limuzina ashtu edhe SUV dhe të testohen të gjitha metodat.
  */
 public class Autosalloni {
+
+
     private String emri ;
     private Automjeti[] vargu ;
-    private int index = 0 ;
+    private int index ;
 
-
-    public Autosalloni(String emri,int kapacitetiVargut) {
-        this.emri = emri;
-        vargu = new Automjeti[kapacitetiVargut];
+    public String getEmri() {
+        return emri;
     }
 
-
-    public boolean ekziston(Automjeti automjeti){
-        for (int i =0 ;i < index ; i++){
+    public Autosalloni(String emri , int kapacitetiVargut)throws AutomjetiExecption{
+        if (emri.equals("") || emri.trim().isEmpty()){
+            throw new AutomjetiExecption("Nje gabim u detektua ne emrin e Autosallonit !!!");
+        }
+        if (kapacitetiVargut < 0){
+            throw new AutomjetiExecption("Nuk munde te jete gjatesia e vargut negative !!!");
+        }
+        this.emri = emri ;
+        vargu = new Automjeti[kapacitetiVargut];
+    }
+    public boolean ekziston(Automjeti automjeti) throws AutomjetiExecption{
+        if (automjeti == null){
+            throw new AutomjetiExecption("ka ndodhur nje gabim tek inicializimi i Automjetit ");
+        }
+        for (int i = 0 ; i< index ; i++){
             if (vargu[i].equals(automjeti)){
                 return true;
             }
@@ -33,60 +42,65 @@ public class Autosalloni {
         return false;
     }
 
-    public void shtoAutomjetin(Automjeti automjeti){
+    public void shtoAutomjetin(Automjeti automjeti) throws AutomjetiExecption{
         if (automjeti == null){
-            System.out.println("Automjeti eshte null");
-            return;
+            throw new AutomjetiExecption("Nuk mund te jet automjeti null");
         }
         if (index == vargu.length){
-            System.out.println("Nuk ka vende te lira ne varg");
-            return;
+            throw new AutomjetiExecption("Nuk ka vende te lira ne varg");
         }
         if (ekziston(automjeti)){
-            System.out.println("Automjeti ekziston");
-            return;
+            throw new AutomjetiExecption("Automjeti me nr te shasise "+automjeti.getNrShasise()+" Ekziston");
         }
         vargu[index++] = automjeti;
     }
 
-    public void shtypNumriShpejtesive(int nrShpejtsive){
-        for (int i = 0 ; i < index ; i++){
-            if (vargu[i].numriShpejtsive() == nrShpejtsive){
+    public void shtypShpejtesiaProdhuesi(int numriShpejtesive , String prodhuesi) throws AutomjetiExecption{
+        if (numriShpejtesive < 5){
+            throw new AutomjetiExecption("Nuk ekzsiton makin me me pak se 5 shpejtesi");
+        }
+        if (prodhuesi.equals("") || prodhuesi.trim().isEmpty()){
+            throw new AutomjetiExecption("U Dedektua nje  gabim tek Prodhuesi");
+        }
+        for (int i = 0 ;i<index ; i++){
+            if (vargu[i].numriShpejtesive() == numriShpejtesive && vargu[i].getProdhuesi().equals(prodhuesi)){
                 System.out.println(vargu[i]);
             }
         }
     }
 
-    public Automjeti[] ktheMeTempomat(boolean kaTempomat){
-        int count = 0 ;
-        for (int i = 0 ; i < index ; i++){
-            if (vargu[i].kaTempomat() == kaTempomat){
-                count++;
+    public Automjeti tempomatiMeIRi(){
+        Automjeti automjeti = null;
+        for (int i =0;i<index ;i++ ){
+            if ( automjeti == null ||vargu[i].kaTempomat() == true && vargu[i].getVitiProdhimit() >= automjeti.getVitiProdhimit()){
+                automjeti = vargu[i];
             }
         }
-        int temp = 0 ;
-        Automjeti [] temporaryVarg = new Automjeti[count];
-        for (int i = 0 ; i < index ; i++){
-            if (vargu[i].kaTempomat() == kaTempomat){
-                temporaryVarg[temp++]=vargu[i];
-            }
-        }
-        return temporaryVarg ;
-
+        return automjeti;
     }
 
-    public static void main(String[] args) {
-        Autosalloni autosalloni = new Autosalloni("Salloni ABC" ,50);
+    public void printAllCars(){
+        int count = 1;
+        for (int i = 0 ; i < index;i++) {
+            System.out.println("Makina e " + count++  + " ne Autosallonin \"ABC\" eshte : " + vargu[i]);
+        }
+    }
 
-        Automjeti a1 = new Limuzina(525252,"BMW",2019,"E Bardhe");
-        Automjeti a2 = new Limuzina(525253,"Mercedes",2020,"E Zeze");
-        Automjeti a3 = new Limuzina(525254,"Audi",2009,"E Bardhe");
-        Automjeti a4 = new Limuzina(525442,"BMW",2021,"E Kuqe");
+    public static void main(String [] args) throws AutomjetiExecption {
 
-        Automjeti a5 = new SUV(112233,"BMW",2012,true);
-        Automjeti a6 = new SUV(112244,"Mercedes",2021,false);
-        Automjeti a7 = new SUV(112255,"Audi",2019,true);
-        Automjeti a8 = new SUV(112266,"BMW",2015,false);
+
+        Autosalloni autosalloni = new Autosalloni("ABC",50);
+        Automjeti a1 = new Limuzina(123456,"BMW",2019,"Kuqe");
+        Automjeti a2 = new Limuzina(123457,"Mercedes",2012,"Bardhe");
+        Automjeti a3 = new Limuzina(123458,"BMW",2019,"Kuqe");
+        Automjeti a4 = new Limuzina(123459,"Audi",2019,"Kalter");
+        Automjeti a5 = new Limuzina(123455,"BMW",2022,"Bardhe");
+
+        Automjeti a6 = new SUV(123450,"BMW",2020,true);
+        Automjeti a7 = new SUV(123451,"Mercedes",2019,true);
+        Automjeti a8 = new SUV(123452,"BMW",2013,false);
+        Automjeti a9 = new SUV(123453,"Audi",2020,false);
+        Automjeti a10 = new SUV(123454,"BMW",2022,true);
 
         autosalloni.shtoAutomjetin(a1);
         autosalloni.shtoAutomjetin(a2);
@@ -96,19 +110,18 @@ public class Autosalloni {
         autosalloni.shtoAutomjetin(a6);
         autosalloni.shtoAutomjetin(a7);
         autosalloni.shtoAutomjetin(a8);
-
-        System.out.println("-----------------------------------------");
-        autosalloni.shtypNumriShpejtesive(5);
-
-        System.out.println("-----------------------------------------");
-        Automjeti [] kthe =autosalloni.ktheMeTempomat(false);
-        for (int i = 0 ; i < kthe.length ; i++){
-            System.out.println(kthe[i]);
-        }
+        autosalloni.shtoAutomjetin(a9);
+        autosalloni.shtoAutomjetin(a10);
 
 
-
+        System.out.println("Pershendetje !\nMire se erdhet ne AutoSallonin \""+autosalloni.getEmri()+"\" \nNe ne AutoSallonin \""+autosalloni.getEmri()+"\" posedojme gjithsej "+ autosalloni.index +" vetura");
+        System.out.println("------------------------------------------------");
+        autosalloni.printAllCars();
+        System.out.println("------------------------------------------------");
+        autosalloni.shtypShpejtesiaProdhuesi(6,"BMW");
+        System.out.println("------------------------------------------------");
+        System.out.println("Automjeti me i Ri qe posedon tempomat eshte :");
+        System.out.println(autosalloni.tempomatiMeIRi());
+        System.out.println("------------------------------------------------");
     }
-
-
 }
