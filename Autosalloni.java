@@ -1,113 +1,114 @@
 /*
-2.4.Krijoni klasën Autosalloni që ka emrin dhe automjete të ndryshme
-a) Ofroni konstruktorin e kësaj klase, i cili pranon emrin e autosallonit.
-b) Klasa e brendshme (ang. Inner class) Minibusi është një Automjet automatik, ka numrin e dyerëve,
-reprezentohet në String si:
-Minibusi <nrShasise> : <prodhuesi> - <vitiProdhimit> : <nrDyereve>
-c) Klasa e ndërthurur (ang. static nested class) Coupe është një Automjet jo automatik, ka numrin e
-ulëseve, reprezentohet në String si:
-Coupe <nrShasise> : <prodhuesi> - <vitiProdhimit> - me <nrUleseve> ulese
-d) Një autosallon mund të ketë 250 automjete (nuk duhet te deklarohet si konstante).
-e) Çdo Autosallon e ka një Coupe të vjetër dy vite me dy ulëse
-f) Ofroni metodën shtoAutomjetin që e shton një automjet nëse nuk ekziston dhe ka vend në varg.
-
-g) Metoda shtoNjeAutomjet pranon parametrat per një automjet gjenerik, treguesin se a është
-automatik apo jo dhe e shton këtë automjet në varg
-
-h) Metoda shtoPrototipin pranon si parametra numrin e shasisë dhe prodhuesin (fillestar) dhe e shton
-automjetin prototip në varg. Prototipi është i vitit aktual dhe nuk është automatik. Një autosallon
-mund të ketë vetëm një automjet prototip.
-i) Ofroni metodën avgNumriUleseve që kthen automjetin e fundit me më pak ulëse se mesatarja.
-j) Metoda shtypAutomatik që shtyp automjetet (jo)automatike, varësisht nga parametri i pranuar.
-k) Ofroni metodën main ku do të krijohet një instancë e klasës Autosalloni me emrin “Salloni ABC”,
-dhe shtoni një prototip dhe nga një automjet të secilit lloj.
-l) Të testohen të gjitha metodat
+2.5. Krijoni klasën Autosalloni që ka atributin emri , dhe përmban një varg ku do të ruhen si limuzina
+ashtu edhe SUV.
+a) Ofroni konstruktorin e kësaj klase, i cili pranon emrin si dhe numrin e automjeteve.
+b) Ofroni metodën shtoAutomjetin që e shton një automjet në varg nëse veq nuk ekziston dhe ka
+vend në varg.
+c) Metoda shtypNumriShpejtesive që shtyp automjetet me një numër te caktuar te shpejtësive,
+varësisht nga parametri i pranuar.
+d) Metoda ktheMeTempomat që kthen automjetet me/pa tempomat, varësisht nga parametri i
+pranuar.
+e) Ofroni metodën main dhe krijohet një instancë e klasës Autosalloni me emrin “Salloni ABC” që
+mund të ketë 50 automjete, dhe shtoni disa limuzina ashtu edhe SUV.
+f) Të testohen të gjitha metodat.
  */
-
 public class Autosalloni {
-    private String emriAutosallonit ;
+    private String emri ;
     private Automjeti[] vargu ;
     private int index = 0 ;
-    static int kapaciteti ;
-
-    public Autosalloni(String emriAutosallonit){
-        this.emriAutosallonit = emriAutosallonit ;
-    }
-    private class Minibusi extends Automjeti{
-        private int nrDyrve ;
-
-        @Override
-        public boolean eshteAutomatik() {
-            return true;
-        }
-
-        public Minibusi(int nrShasise ,String prodhuesi ,int vitiProdhimit ,int nrDyrve){
-            super(nrShasise, prodhuesi, vitiProdhimit);
-            this.nrDyrve = nrDyrve ;
-        }
-
-        public String toString(){
-            return " Minibusi " +super.toString() + " : " + nrDyrve;
-        }
 
 
+    public Autosalloni(String emri,int kapacitetiVargut) {
+        this.emri = emri;
+        vargu = new Automjeti[kapacitetiVargut];
     }
 
-    private static class Coupe extends  Automjeti{
-        private int nrEUleseve ;
 
-        public Coupe(int nrShasise ,String prodhuesi ,int vitiProdhimit ,int nrEUleseve){
-            super(nrShasise, prodhuesi, vitiProdhimit);
-            this.nrEUleseve = nrEUleseve;
-        }
-
-        @Override
-        public boolean eshteAutomatik() {
-            return true;
-        }
-
-        @Override
-        public String toString(){
-            return " Coupe " +super.toString() + "- me " + nrEUleseve + " ulese ";
-        }
-
-    }
-
-    static {
-        kapaciteti = 250 ;
-    }
-    {
-        vargu = new Automjeti[kapaciteti];
-        Autosalloni.Coupe coupe = new  Autosalloni.Coupe(20,"BMW",2019,2);
-        shtoAutomjetin(coupe);
-    }
-
-    public boolean ezksiton(Automjeti automjeti){
-        for (int i = 0 ; i < index ; i++){
+    public boolean ekziston(Automjeti automjeti){
+        for (int i =0 ;i < index ; i++){
             if (vargu[i].equals(automjeti)){
-                return true ;
+                return true;
             }
         }
-        return false ;
+        return false;
     }
 
     public void shtoAutomjetin(Automjeti automjeti){
         if (automjeti == null){
-            System.out.println("Automjeti nuk ekziston ");
+            System.out.println("Automjeti eshte null");
             return;
         }
         if (index == vargu.length){
-            System.out.println("Nuk ka vende te lira ne Autosallon i  kem 250 automjete ");
+            System.out.println("Nuk ka vende te lira ne varg");
             return;
         }
-        if (ezksiton(automjeti)){
-            System.out.println("Automjeti ekziston ne autosallon !");
+        if (ekziston(automjeti)){
+            System.out.println("Automjeti ekziston");
             return;
         }
-        vargu[index++] = automjeti ;
+        vargu[index++] = automjeti;
     }
 
+    public void shtypNumriShpejtesive(int nrShpejtsive){
+        for (int i = 0 ; i < index ; i++){
+            if (vargu[i].numriShpejtsive() == nrShpejtsive){
+                System.out.println(vargu[i]);
+            }
+        }
+    }
 
+    public Automjeti[] ktheMeTempomat(boolean kaTempomat){
+        int count = 0 ;
+        for (int i = 0 ; i < index ; i++){
+            if (vargu[i].kaTempomat() == kaTempomat){
+                count++;
+            }
+        }
+        int temp = 0 ;
+        Automjeti [] temporaryVarg = new Automjeti[count];
+        for (int i = 0 ; i < index ; i++){
+            if (vargu[i].kaTempomat() == kaTempomat){
+                temporaryVarg[temp++]=vargu[i];
+            }
+        }
+        return temporaryVarg ;
+
+    }
+
+    public static void main(String[] args) {
+        Autosalloni autosalloni = new Autosalloni("Salloni ABC" ,50);
+
+        Automjeti a1 = new Limuzina(525252,"BMW",2019,"E Bardhe");
+        Automjeti a2 = new Limuzina(525253,"Mercedes",2020,"E Zeze");
+        Automjeti a3 = new Limuzina(525254,"Audi",2009,"E Bardhe");
+        Automjeti a4 = new Limuzina(525442,"BMW",2021,"E Kuqe");
+
+        Automjeti a5 = new SUV(112233,"BMW",2012,true);
+        Automjeti a6 = new SUV(112244,"Mercedes",2021,false);
+        Automjeti a7 = new SUV(112255,"Audi",2019,true);
+        Automjeti a8 = new SUV(112266,"BMW",2015,false);
+
+        autosalloni.shtoAutomjetin(a1);
+        autosalloni.shtoAutomjetin(a2);
+        autosalloni.shtoAutomjetin(a3);
+        autosalloni.shtoAutomjetin(a4);
+        autosalloni.shtoAutomjetin(a5);
+        autosalloni.shtoAutomjetin(a6);
+        autosalloni.shtoAutomjetin(a7);
+        autosalloni.shtoAutomjetin(a8);
+
+        System.out.println("-----------------------------------------");
+        autosalloni.shtypNumriShpejtesive(5);
+
+        System.out.println("-----------------------------------------");
+        Automjeti [] kthe =autosalloni.ktheMeTempomat(false);
+        for (int i = 0 ; i < kthe.length ; i++){
+            System.out.println(kthe[i]);
+        }
+
+
+
+    }
 
 
 }

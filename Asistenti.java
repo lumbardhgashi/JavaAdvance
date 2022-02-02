@@ -1,31 +1,42 @@
 /*
-1.3.Klasa konkrete Asistenti është një Mësimdhënës dhe ka atributin shtesë: llojiUshtimreve
+1.4. Klasa konkrete Asistenti është një Mësimdhënës dhe ka atributin shtesë: llojiUshtimreve
 a) Ofroni metodat get dhe set për ato atribute që ju e shihni të nevojshme.
 b) Një asistent ka angazhimin “Ushtrime” dhe nuk mund të mentoroj punime diplome.
-c) Një asistent Ofroni metodën që reprezenton në String një objekt të klasës Asistenti në
-formatin:
-Asistenti <emri> : < vitiLindjes > angazhohet ne <angazhimi> <llojiUshtrimeve>
- */
-public class Asistenti extends  Mesimdhenesi {
-    private String llojiUshtrimeve;
+c) Ofroni metodën që reprezenton në String një objekt të klasës Asistenti në formatin:
+Asistenti <emri> : < vitiLindjes > me fushe studimi <fushaStudimit> <llojiUshtrimeve>
 
-    public Asistenti(String emri, int vitilindjes, String llojiUshtrimeve) {
-        super(emri, vitilindjes, "Ushtrime");
+ */
+public class Asistenti extends Mesimdhenesi{
+    private String llojiUshtrimeve ;
+
+    public Asistenti(String emri, int vitiLindjes, String fushaStudimit, String llojiUshtrimeve) {
+        super(emri, vitiLindjes, fushaStudimit);
         this.llojiUshtrimeve = llojiUshtrimeve;
     }
+
+    public String getLlojiUshtrimeve() {
+        return llojiUshtrimeve;
+    }
+
+    public void setLlojiUshtrimeve(String llojiUashtrimeve) {
+        this.llojiUshtrimeve = llojiUashtrimeve;
+    }
+
+    @Override
+    public String getAngazhimi() {
+        return "Ushtrime";
+    }
+
     @Override
     public boolean mentoron() {
         return false;
     }
-
-    public String getLlojiUshtrimeve(){
-        return llojiUshtrimeve;
-    }
-    public void setLlojiUshtrimeve(String llojiUshtrimeve){
-        this.llojiUshtrimeve = llojiUshtrimeve ;
-    }
+    /*
+    Asistenti <emri> : < vitiLindjes > me fushe studimi <fushaStudimit> <llojiUshtrimeve>
+     */
     public String toString(){
-        return "Asistenti "+ super.toString() + " " + llojiUshtrimeve;
+        return "Asistenti "+super.toString()+" " + llojiUshtrimeve ;
     }
+
 
 }
