@@ -1,30 +1,31 @@
-public class Profesori extends Mesimdhenesi {
-    private String thirrjaAkademike;
+/*
+1.2.Klasa konkrete Profesori është një Mësimdhënës dhe ka atributin shtesë: thirrjaAkademike
+a) Ofroni metodat get dhe set për ato atribute që ju e shihni të nevojshme.
+b) Një profesor ka angazhimin “Ligjerata” dhe mund të mentoroj punime diplome.
+c) Ofroni metodën që reprezenton në String një objekt të klasës Profesori në formatin:
+Profesori <emri> : < vitiLindjes > angazhohet ne <angazhimi>, ka thirrje <thirrjaAkademike>
 
-    public Profesori(String thirrjaAkademike, String emri, int vitiLindjes, String angazhimi) {
-        super(emri, vitiLindjes, angazhimi);
-        this.thirrjaAkademike = thirrjaAkademike;
+ */
+public class Profesori extends Mesimdhenesi{
+    private String thirrjAkademike ;
+
+     public Profesori(String emri , int vitilindjes ,String thirrjaAkademike ){
+        super(emri, vitilindjes,"Ligjerata");
+        this.thirrjAkademike = thirrjaAkademike;
+    }
+    public  boolean mentoron(){
+         return  true;
     }
 
-
-
-    public String getThirrjaAkademike() {
-        return thirrjaAkademike;
+    public String getThirrjAkademike(){
+         return  thirrjAkademike;
     }
-
-    public void setThirrjaAkademike(String thA) {
-        thirrjaAkademike = thA;
+    public void setThirrjAkademike(String thirrjAkademike){
+         this.thirrjAkademike =thirrjAkademike;
     }
-
-    @Override
-    //Mundemi me e thirr edhe si super.toString() ne  menyre qe me thirr toString() te prindit ket rast mesimdhenesi
-    /* public String toString(){
-       return super.toString() + thirrjaAkademike ;
-    }
-    OSE MENYRA TJETER :
-     */
     public String toString(){
-        return "Profesori " + this.getEmri() + " : " +this.getVitiLindjes() + " mban " + this.getAngazhimi() + " , ka thirrje " + thirrjaAkademike ;
+         return "Profesori " +super.toString()+" , ka thirrje Akademike " + thirrjAkademike;
     }
+
 
 }

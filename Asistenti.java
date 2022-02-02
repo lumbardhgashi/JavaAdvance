@@ -1,23 +1,31 @@
-public class Asistenti extends Mesimdhenesi{
-    private  String llojiUshtrimeve ;
+/*
+1.3.Klasa konkrete Asistenti është një Mësimdhënës dhe ka atributin shtesë: llojiUshtimreve
+a) Ofroni metodat get dhe set për ato atribute që ju e shihni të nevojshme.
+b) Një asistent ka angazhimin “Ushtrime” dhe nuk mund të mentoroj punime diplome.
+c) Një asistent Ofroni metodën që reprezenton në String një objekt të klasës Asistenti në
+formatin:
+Asistenti <emri> : < vitiLindjes > angazhohet ne <angazhimi> <llojiUshtrimeve>
+ */
+public class Asistenti extends  Mesimdhenesi {
+    private String llojiUshtrimeve;
 
-    public Asistenti(String llojiUshtrimeve ,String emri ,int vitiLindjes , String angazhimi){
-        super(emri,vitiLindjes,angazhimi);
+    public Asistenti(String emri, int vitilindjes, String llojiUshtrimeve) {
+        super(emri, vitilindjes, "Ushtrime");
         this.llojiUshtrimeve = llojiUshtrimeve;
     }
+    @Override
+    public boolean mentoron() {
+        return false;
+    }
+
     public String getLlojiUshtrimeve(){
         return llojiUshtrimeve;
     }
     public void setLlojiUshtrimeve(String llojiUshtrimeve){
         this.llojiUshtrimeve = llojiUshtrimeve ;
     }
-
-    @Override
     public String toString(){
-        return "Asistenti " + this.getEmri() + " : " +this.getVitiLindjes() + " mban " + this.getAngazhimi() + llojiUshtrimeve ;
+        return "Asistenti "+ super.toString() + " " + llojiUshtrimeve;
     }
+
 }
-/*
-Ushtrimi ishte nje inheritanc(trashegimi) hieararkike 
-per arsye se asistenti dhe profesori trashegojshin nga classa Mesimdhenesi 
- */

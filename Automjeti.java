@@ -1,46 +1,53 @@
-package Ushtrimi2;
-
-public class Automjeti {
-    private int nrShasis ; // read only
+/*
+2.1.Krijoni klasën abstrakte Automjeti që ka tri atribute: nrShasise [readonly], prodhuesi si dhe
+vitiProdhimit
+a) Ofroni konstruktorin që pranon që të tri parametrat, ku inicializohen të gjitha atributet.
+b) Ofroni metodat get dhe set për ato atribute që ju e shihni të nevojshme
+c) Ofroni metodën abstrakte eshteAutomatik
+d) Ofroni metodën që reprezenton në String një Automejti në formatin:
+<nrShasise> : <prodhuesi> - <vitiProdhimit>
+e) Ofroni metodën për krahasimin e dy Automjeteve
+(Dy automjete të njejtë kanë numrin e shasisë të njejtë).
+ */
+public abstract  class Automjeti {
+    private int nrShasise ;
     private String prodhuesi ;
     private int vitiProdhimit ;
 
-    public Automjeti(int nrShasis , String prodhuesi , int vitiProdhimit){
-        this.nrShasis=nrShasis;
-        this.prodhuesi=prodhuesi;
-        this.vitiProdhimit=vitiProdhimit;
+    public Automjeti(int nrShasise , String prodhuesi ,int vitiProdhimit){
+        this.nrShasise = nrShasise;
+        this.prodhuesi = prodhuesi ;
+        this.vitiProdhimit =vitiProdhimit;
     }
-
-    public int getNrShasis() {
-        return nrShasis;
+    public int getNrShasise(){
+        return nrShasise;
     }
-
-    public String getProdhuesi() {
+    public String getProdhuesi(){
         return prodhuesi;
     }
-
-    public void setProdhuesi(String prodhuesi) {
+    public void setProdhuesi(String prodhuesi){
         this.prodhuesi = prodhuesi;
     }
-
-    public int getVitiProdhimit() {
+    public int getVitiProdhimit(){
         return vitiProdhimit;
     }
+    public void setVitiProdhimit(int vitiProdhimit){
+        this.vitiProdhimit = vitiProdhimit ;
+    }
+    public abstract boolean eshteAutomatik();
 
-    public void setVitiProdhimit(int vitiProdhimit) {
-        this.vitiProdhimit = vitiProdhimit;
-    }
+    @Override
     public String toString(){
-        return nrShasis + " : " + prodhuesi + " - " + vitiProdhimit;
+        return nrShasise +" : " + prodhuesi + " - " + vitiProdhimit ;
     }
+
     public boolean equals(Object obj){
-        if (obj instanceof Automjeti){
-            Automjeti krahasues = (Automjeti) obj ;
-            if (nrShasis == krahasues.getNrShasis()){
+        if (obj instanceof  Automjeti){
+            Automjeti krahasues = (Automjeti) obj;
+            if (nrShasise == krahasues.getNrShasise()){
                 return true;
             }
         }
-        return false;
+        return false ;
     }
-
 }

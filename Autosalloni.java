@@ -1,81 +1,113 @@
-package Ushtrimi2;
+/*
+2.4.Krijoni klasën Autosalloni që ka emrin dhe automjete të ndryshme
+a) Ofroni konstruktorin e kësaj klase, i cili pranon emrin e autosallonit.
+b) Klasa e brendshme (ang. Inner class) Minibusi është një Automjet automatik, ka numrin e dyerëve,
+reprezentohet në String si:
+Minibusi <nrShasise> : <prodhuesi> - <vitiProdhimit> : <nrDyereve>
+c) Klasa e ndërthurur (ang. static nested class) Coupe është një Automjet jo automatik, ka numrin e
+ulëseve, reprezentohet në String si:
+Coupe <nrShasise> : <prodhuesi> - <vitiProdhimit> - me <nrUleseve> ulese
+d) Një autosallon mund të ketë 250 automjete (nuk duhet te deklarohet si konstante).
+e) Çdo Autosallon e ka një Coupe të vjetër dy vite me dy ulëse
+f) Ofroni metodën shtoAutomjetin që e shton një automjet nëse nuk ekziston dhe ka vend në varg.
+
+g) Metoda shtoNjeAutomjet pranon parametrat per një automjet gjenerik, treguesin se a është
+automatik apo jo dhe e shton këtë automjet në varg
+
+h) Metoda shtoPrototipin pranon si parametra numrin e shasisë dhe prodhuesin (fillestar) dhe e shton
+automjetin prototip në varg. Prototipi është i vitit aktual dhe nuk është automatik. Një autosallon
+mund të ketë vetëm një automjet prototip.
+i) Ofroni metodën avgNumriUleseve që kthen automjetin e fundit me më pak ulëse se mesatarja.
+j) Metoda shtypAutomatik që shtyp automjetet (jo)automatike, varësisht nga parametri i pranuar.
+k) Ofroni metodën main ku do të krijohet një instancë e klasës Autosalloni me emrin “Salloni ABC”,
+dhe shtoni një prototip dhe nga një automjet të secilit lloj.
+l) Të testohen të gjitha metodat
+ */
 
 public class Autosalloni {
-    private String emri ;
+    private String emriAutosallonit ;
     private Automjeti[] vargu ;
     private int index = 0 ;
+    static int kapaciteti ;
 
-    public Autosalloni(String emri , int kapaciteti){
-        this.emri=emri;
-        vargu=new Automjeti[kapaciteti];
+    public Autosalloni(String emriAutosallonit){
+        this.emriAutosallonit = emriAutosallonit ;
     }
-    public boolean ekziston(Automjeti automjeti){
-        for (int i=0;i<index ;i++){
-            if (vargu[i].equals(automjeti)) {
-                return true;
+    private class Minibusi extends Automjeti{
+        private int nrDyrve ;
+
+        @Override
+        public boolean eshteAutomatik() {
+            return true;
+        }
+
+        public Minibusi(int nrShasise ,String prodhuesi ,int vitiProdhimit ,int nrDyrve){
+            super(nrShasise, prodhuesi, vitiProdhimit);
+            this.nrDyrve = nrDyrve ;
+        }
+
+        public String toString(){
+            return " Minibusi " +super.toString() + " : " + nrDyrve;
+        }
+
+
+    }
+
+    private static class Coupe extends  Automjeti{
+        private int nrEUleseve ;
+
+        public Coupe(int nrShasise ,String prodhuesi ,int vitiProdhimit ,int nrEUleseve){
+            super(nrShasise, prodhuesi, vitiProdhimit);
+            this.nrEUleseve = nrEUleseve;
+        }
+
+        @Override
+        public boolean eshteAutomatik() {
+            return true;
+        }
+
+        @Override
+        public String toString(){
+            return " Coupe " +super.toString() + "- me " + nrEUleseve + " ulese ";
+        }
+
+    }
+
+    static {
+        kapaciteti = 250 ;
+    }
+    {
+        vargu = new Automjeti[kapaciteti];
+        Autosalloni.Coupe coupe = new  Autosalloni.Coupe(20,"BMW",2019,2);
+        shtoAutomjetin(coupe);
+    }
+
+    public boolean ezksiton(Automjeti automjeti){
+        for (int i = 0 ; i < index ; i++){
+            if (vargu[i].equals(automjeti)){
+                return true ;
             }
         }
-        return false;
+        return false ;
     }
+
     public void shtoAutomjetin(Automjeti automjeti){
-        if (ekziston(automjeti)){
-            System.out.printf("Autonjeti %s ekziston ne varg ! ",automjeti);
+        if (automjeti == null){
+            System.out.println("Automjeti nuk ekziston ");
             return;
         }
-        if (index>= vargu.length){
-            System.out.println("Nuk ka vende te lira ne varg");
+        if (index == vargu.length){
+            System.out.println("Nuk ka vende te lira ne Autosallon i  kem 250 automjete ");
             return;
         }
-        if (automjeti==null){
-            System.out.println("Automjet i pakuptimt !");
+        if (ezksiton(automjeti)){
+            System.out.println("Automjeti ekziston ne autosallon !");
             return;
         }
-        vargu[index++]=automjeti;
-    }
-    public void shtypNgjyrat(String ngjyra){
-        for (int i =0;i<index;i++){
-            if (vargu[i] instanceof Limuzina && ((Limuzina) vargu[i]).getNgjyra().equals(ngjyra) ){
-                System.out.println(vargu[i]);
-            }
-        }
-        return;
-    }
-    public Automjeti suvMeIVjeter(){
-        Automjeti suv = null ;
-        for (int i =0;i<index ;i++){
-            if (vargu[i] instanceof SUV && vargu[i].getVitiProdhimit() < suv.getVitiProdhimit() || suv == null ){
-                suv = vargu[i];
-            }
-        }
-        return suv ;
+        vargu[index++] = automjeti ;
     }
 
-    public static void main(String[] args) {
-        Autosalloni autosalloni = new Autosalloni("Salloni \"Gashi\"",50);
-        Limuzina l1 = new Limuzina("Kuqe",12345,"BMW",2009);
-        Limuzina l2 = new Limuzina("Zeze",1234,"Mercedes",2010);
-        Limuzina l3 = new Limuzina("Kalter",1345,"BMW",2011);
-        Limuzina l4 = new Limuzina("Verdh",345,"Audi",2015);
-        Limuzina l5 = new Limuzina("Kuqe",1235,"Mercedes",2009);
-        autosalloni.shtoAutomjetin(l1);
-        autosalloni.shtoAutomjetin(l2);
-        autosalloni.shtoAutomjetin(l3);
-        autosalloni.shtoAutomjetin(l4);
-        autosalloni.shtoAutomjetin(l5);
-        SUV s1 = new SUV(false,56789,"Range Rover",2005);
-        SUV s2 = new SUV(true,5678,"BMW",2006);
-        SUV s3 = new SUV(false,5679,"Range Rover",2008);
-        SUV s4 = new SUV(false,5689,"Mercedes",2005);
-        SUV s5 = new SUV(true,5789,"BMW",2007);
-        autosalloni.shtoAutomjetin(s1);
-        autosalloni.shtoAutomjetin(s2);
-        autosalloni.shtoAutomjetin(s3);
-        autosalloni.shtoAutomjetin(s4);
-        autosalloni.shtoAutomjetin(s5);
 
-        System.out.println(autosalloni.ekziston(l2));
-        System.out.print("Suv-i me i vjeter eshte => ");
-        System.out.println(autosalloni.suvMeIVjeter());
-       autosalloni.shtypNgjyrat("Kalter");
-    }
+
+
 }
